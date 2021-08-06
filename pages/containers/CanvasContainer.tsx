@@ -5,7 +5,7 @@ type canvasProps = any
 const Canvas = (props:canvasProps) => {
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
-    const { draw, ...rest} = props;
+    const { draw, maxRad, ...rest} = props;
 
     React.useEffect(() => {
         const canvas = canvasRef.current;
@@ -18,16 +18,16 @@ const Canvas = (props:canvasProps) => {
 
         const render = () => {
             frameCount++;
-            draw(context, frameCount);
+            draw(context, frameCount, maxRad);
             animationFrameId = window.requestAnimationFrame(render);
         }
         render();
         return () => {
             window.cancelAnimationFrame(animationFrameId);
         }
-    }, [draw]);
+    }, []);
 
-    return <canvas ref={canvasRef} {...props} />
+    return <canvas ref={canvasRef} {...rest} />
 }
 
 export default Canvas
